@@ -15,6 +15,8 @@ class Tasks::FetchScore
       session.visit 'http://score.rcc.jp/'
       doc = Nokogiri::HTML.parse(session.html)
 
+      game_date = doc.css('.bord-card').inner_text.split[0]
+
       # 得点経過の要素を持ってくる
       score_doc = doc.css('table.toku-waku:not([style="display:none"])')
 
@@ -27,7 +29,7 @@ class Tasks::FetchScore
           when: data[0],
           name: data[1],
           score: data[3],
-          game_date: Date.today
+          game_date: Date.parse(game_date)
         )
         prompt_report.detail = data[2]
         prompt_report.save!
