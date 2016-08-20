@@ -19,9 +19,18 @@ class Tasks::FetchScore
       score_doc = doc.css('table.toku-waku:not([style="display:none"])')
 
       score_doc.css('tr').each do |tr|
-        tr.css('td:not([class="toku-li"])').each do |td|
-          puts td.inner_text
-        end
+        # data: [when, name, detail, score]
+        data = tr.css('td:not([class="toku-li"])').map { |td| td.inner_text.gsub(/\s/, '') }
+        next if data.empty?
+
+        prompt_report = PromptReport.find_or_initialize_by(
+          when: data[0],
+          name: data[1],
+          score: data[3],
+          game_date: Date.today
+        )
+        prompt_report.detail = data[2]
+        prompt_report.save!
       end
     end
   end

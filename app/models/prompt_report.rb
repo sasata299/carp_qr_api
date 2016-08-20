@@ -1,0 +1,2 @@
+class PromptReport < ApplicationRecord
+end
