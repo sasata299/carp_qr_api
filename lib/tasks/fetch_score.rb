@@ -2,6 +2,29 @@ class Tasks::FetchScore
   require 'capybara/poltergeist'
 
   class << self
+    def score(doc)
+      scores = []
+
+      doc.css('table.score tr').each do |tr|
+        result = tr.inner_text.split
+        result[0].gsub!('T.N', '')
+
+        scores << [
+          result[0].ljust(5, '　'),
+          result[1..-3].join(' '),
+          result[-2].ljust(2),
+          result[-1]
+        ].join(' ')
+      end
+
+      #doc.css('table.pitcher tr').each do |tr|
+      #  result = tr.inner_text.split
+      #  puts result[0].ljust(6, '　') + result[1].ljust(6, '　') + result[2..-1].join(' ')
+      #end
+
+      scores.join("\n")
+    end
+
     def execute
       Capybara.register_driver :poltergeist do |app|
         Capybara::Poltergeist::Driver.new(app, js_errors: false, timeout: 5000)
@@ -16,6 +39,10 @@ class Tasks::FetchScore
       doc = Nokogiri::HTML.parse(session.html)
 
       game_date = doc.css('.bord-card').inner_text.split[0]
+
+      # 試合終了時には試合結果を保存する
+      game_score = score(doc) unless doc.css('table.pitcher').empty?
+      puts game_score
 
       # 得点経過の要素を持ってくる
       score_doc = doc.css('table.toku-waku:not([style="display:none"])')
