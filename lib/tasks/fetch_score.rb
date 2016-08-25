@@ -6,14 +6,13 @@ class Tasks::FetchScore
       scores = []
 
       doc.css('table.score tr').each do |tr|
-        result = tr.inner_text.split
-        result[0].gsub!('T.N', '')
+        gr = GameResult.new(tr.inner_text.split)
 
         scores << [
-          result[0].ljust(5, '　'),
-          result[1..-3].join(' '),
-          result[-2].ljust(2),
-          result[-1]
+          gr.team_name.ljust(5, '　'),
+          gr.scores.join(' '),
+          gr.hit_num.ljust(2),
+          gr.error_num
         ].join(' ')
       end
 
