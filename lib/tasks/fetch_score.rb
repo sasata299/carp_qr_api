@@ -19,6 +19,10 @@ class Tasks::FetchScore
       scores.join("\n")
     end
 
+    def game_date(doc)
+      Date.parse(doc.css('.bord-card').inner_text.split[0])
+    end
+
     def execute
       Capybara.register_driver :poltergeist do |app|
         Capybara::Poltergeist::Driver.new(app, js_errors: false, timeout: 5000)
@@ -32,7 +36,6 @@ class Tasks::FetchScore
       session.visit 'http://score.rcc.jp/'
       doc = Nokogiri::HTML.parse(session.html)
 
-      game_date = doc.css('.bord-card').inner_text.split[0]
 
       # 試合終了時には試合結果を保存する
       game_score = score(doc) unless doc.css('table.pitcher').empty?
@@ -50,7 +53,7 @@ class Tasks::FetchScore
           when: data[0],
           name: data[1],
           score: data[3],
-          game_date: Date.parse(game_date)
+          game_date: game_date(doc)
         )
         prompt_report.detail = data[2]
         prompt_report.save!
