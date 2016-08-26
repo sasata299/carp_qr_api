@@ -36,15 +36,14 @@ class Tasks::FetchScore
       session.visit 'http://score.rcc.jp/'
       doc = Nokogiri::HTML.parse(session.html)
 
+      game = Game.new(doc)
 
       # 試合終了時には試合結果を保存する
       game_score = score(doc) unless doc.css('table.pitcher').empty?
       puts game_score
 
       # 得点経過の要素を持ってくる
-      score_doc = doc.css('table.toku-waku:not([style="display:none"])')
-
-      score_doc.css('tr').each do |tr|
+      game.point_chart.css('tr').each do |tr|
         # data: [when, name, detail, score]
         data = tr.css('td:not([class="toku-li"])').map { |td| td.inner_text.gsub(/\s/, '') }
         next if data.empty?
@@ -53,7 +52,7 @@ class Tasks::FetchScore
           when: data[0],
           name: data[1],
           score: data[3],
-          game_date: game_date(doc)
+          game_date: game.date
         )
         prompt_report.detail = data[2]
         prompt_report.save!
