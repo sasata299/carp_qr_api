@@ -16,11 +16,6 @@ class Tasks::FetchScore
         ].join(' ')
       end
 
-      #doc.css('table.pitcher tr').each do |tr|
-      #  result = tr.inner_text.split
-      #  puts result[0].ljust(6, '　') + result[1].ljust(6, '　') + result[2..-1].join(' ')
-      #end
-
       scores.join("\n")
     end
 
