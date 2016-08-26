@@ -4,49 +4,19 @@ class Tasks::FetchScore
   @doc = nil
 
   class << self
-    def score(doc)
-      scores = []
-
-      doc.css('table.score tr').each do |tr|
-        gr = GameResult.new(tr.inner_text.split)
-
-        scores << [
-          gr.team_name.ljust(5, '　'),
-          gr.scores.join(' '),
-          gr.hit_num.ljust(2),
-          gr.error_num
-        ].join(' ')
-      end
-
-      scores.join("\n")
-    end
-
-    def game_date(doc)
-      Date.parse(doc.css('.bord-card').inner_text.split[0])
-    end
-
     def execute
       setup
 
       game = Game.new(@doc)
 
-      # 試合終了時には試合結果を保存する
-      game_score = score(@doc) unless @doc.css('table.pitcher').empty?
-      puts game_score
-
-      # 得点経過の要素を持ってくる
-      game.point_chart.css('tr').each do |tr|
-        # data: [when, name, detail, score]
-        data = tr.css('td:not([class="toku-li"])').map { |td| td.inner_text.gsub(/\s/, '') }
-        next if data.empty?
-
+      game.score_reports.each do |score_report|
         prompt_report = PromptReport.find_or_initialize_by(
-          when: data[0],
-          name: data[1],
-          score: data[3],
+          when: score_report[0],
+          name: score_report[1],
+          score: score_report[3],
           game_date: game.date
         )
-        prompt_report.detail = data[2]
+        prompt_report.detail = score_report[2]
         prompt_report.save!
       end
     end
