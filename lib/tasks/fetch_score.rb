@@ -9,15 +9,18 @@ class Tasks::FetchScore
 
       game = Game.new(@doc)
 
-      game.score_reports.each do |score_report|
-        prompt_report = PromptReport.find_or_initialize_by(
-          when: score_report[0],
-          name: score_report[1],
-          score: score_report[3],
+      # TODO: 試合結果も保存するようにする
+      puts game.result
+
+      game.score_reports.each do |report|
+        score_report = ScoreReport.find_or_initialize_by(
+          inning: report[0],
+          name: report[1],
+          score: "#{game.teams.first} #{report[3]} #{game.teams.last}",
           game_date: game.date
         )
-        prompt_report.detail = score_report[2]
-        prompt_report.save!
+        score_report.detail = report[2]
+        score_report.save!
       end
     end
 

@@ -1,17 +1,29 @@
 class Game
-  attr_reader :doc, :date, :score_reports, :score
+  attr_reader :doc, :date, :teams, :score_reports, :result
 
   def initialize(doc)
     @doc = doc
     @date = Date.parse(date_str)
+    @teams = generate_teams
     @score_reports = generate_score_reports
-    @score = generate_score unless ongoing?
+    @result = generate_result unless ongoing?
   end
 
   private
 
   def date_str
     doc.css('.bord-card').inner_text.split[0]
+  end
+
+  def generate_teams
+    teams = []
+
+    doc.css('table.score tr').each do |tr|
+      gr = GameResult.new(tr.inner_text.split)
+      teams << gr.team_name unless gr.team_name.empty?
+    end
+
+    teams
   end
 
   def generate_score_reports
@@ -29,7 +41,7 @@ class Game
     score_reports
   end
 
-  def generate_score
+  def generate_result
     scores = []
 
     doc.css('table.score tr').each do |tr|

@@ -12,14 +12,15 @@
 
 ActiveRecord::Schema.define(version: 20160820204709) do
 
-  create_table "prompt_reports", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "when",       null: false
-    t.string   "name",       null: false
-    t.string   "detail",     null: false
-    t.string   "score",      null: false
-    t.date     "game_date",  null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+  create_table "score_reports", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "inning",                     null: false
+    t.string   "name",                       null: false
+    t.string   "detail",                     null: false
+    t.string   "score",                      null: false
+    t.date     "game_date",                  null: false
+    t.boolean  "tweet_flag", default: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
 end
