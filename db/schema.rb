@@ -13,21 +13,22 @@
 ActiveRecord::Schema.define(version: 20160827020929) do
 
   create_table "results", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "detail",     null: false
-    t.date     "game_date",  null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "detail",       null: false
+    t.date     "game_date",    null: false
+    t.datetime "published_at"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   create_table "score_reports", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "inning",                     null: false
-    t.string   "name",                       null: false
-    t.string   "detail",                     null: false
-    t.string   "score",                      null: false
-    t.date     "game_date",                  null: false
-    t.boolean  "tweet_flag", default: false
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.string   "inning",       null: false
+    t.string   "name",         null: false
+    t.string   "detail",       null: false
+    t.string   "score",        null: false
+    t.date     "game_date",    null: false
+    t.datetime "published_at"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
 end

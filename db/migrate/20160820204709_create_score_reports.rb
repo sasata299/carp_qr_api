@@ -6,8 +6,7 @@ class CreateScoreReports < ActiveRecord::Migration[5.0]
       t.string :detail,    null: false
       t.string :score,     null: false
       t.date   :game_date, null: false
-
-      t.boolean :tweet_flag, default: false
+      t.datetime :published_at
 
       t.timestamps
     end
