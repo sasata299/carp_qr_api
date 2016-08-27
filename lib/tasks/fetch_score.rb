@@ -9,8 +9,13 @@ class Tasks::FetchScore
 
       game = Game.new(@doc)
 
-      # TODO: 試合結果も保存するようにする
-      puts game.result
+      if game.result
+        result = Result.find_or_initialize_by(
+          game_date: game.date
+        )
+        result.detail = game.result
+        result.save!
+      end
 
       game.score_reports.each do |report|
         score_report = ScoreReport.find_or_initialize_by(
