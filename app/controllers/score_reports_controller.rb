@@ -6,6 +6,11 @@ class ScoreReportsController < ApplicationController
     @result = Result.active.find_by(game_date: @date)
   end
 
+  def update
+    @score_report = ScoreReport.find(params[:id])
+    @score_report.publish!
+  end
+
   private
 
   def set_target_date
