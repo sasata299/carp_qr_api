@@ -4,4 +4,4 @@ json.score_reports do
   end
 end
 
-json.result @result.detail
+json.result @result ? @result.detail : nil

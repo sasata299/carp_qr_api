@@ -14,6 +14,7 @@ class ScoreReportsController < ApplicationController
   private
 
   def set_target_date
-    @date = Date.yesterday
+    #@date = Date.yesterday
+    @date = Date.today
   end
 end
