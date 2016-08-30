@@ -28,5 +28,6 @@ module CarpQrApi
     config.api_only = true
 
     config.autoload_paths += %W(#{config.root}/lib)
+    config.eager_load_paths += %W(#{config.root}/lib)
   end
 end
