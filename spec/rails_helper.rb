@@ -35,6 +35,48 @@ RSpec.configure do |config|
   # instead of true.
   config.use_transactional_fixtures = true
 
+  Autodoc.configuration.suppressed_request_header = %w(
+    Cache-Control
+    Content-Length
+    X-Request-Id
+    ETag
+    Set-Cookie
+    Accept
+    Content-Type
+    Host
+  )
+
+  Autodoc.configuration.suppressed_response_header = %w(
+    Cache-Control
+    Content-Length
+    X-Request-Id
+    X-Runtime
+    X-XSS-Protection
+    X-Content-Type-Options
+    X-Frame-Options
+    ETag
+  )
+
+  config.include RSpec::JsonMatcher
+  config.include RSpec::RequestDescriber, type: :request
+  #config.include RequestHelpers, type: :request
+  #config.include RequestMacro, type: :request
+  config.include FactoryGirl::Syntax::Methods
+
+  config.before :all do
+    FactoryGirl.reload
+  end
+
+  config.before :suite do
+    DatabaseRewinder.clean_all
+  end
+
+  config.after :each do
+    DatabaseRewinder.clean
+  end
+
+  Autodoc.configuration.toc = true
+
   # RSpec Rails can automatically mix in different behaviours to your tests
   # based on their file location, for example enabling you to call `get` and
   # `post` in specs under `spec/controllers`.

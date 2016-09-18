@@ -40,6 +40,11 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.4.0)
     arel (7.1.1)
+    autodoc (0.6.0)
+      actionpack
+      activesupport (>= 3.0.0)
+      rspec
+    awesome_print (1.7.0)
     builder (3.2.2)
     byebug (9.0.5)
     capybara (2.8.0)
@@ -51,8 +56,14 @@ GEM
       xpath (~> 2.0)
     cliver (0.3.2)
     concurrent-ruby (1.0.2)
+    database_rewinder (0.6.4)
     diff-lcs (1.2.5)
     erubis (2.7.0)
+    factory_girl (4.7.0)
+      activesupport (>= 3.0.0)
+    factory_girl_rails (4.7.0)
+      factory_girl (~> 4.7.0)
+      railties (>= 3.0.0)
     ffi (1.9.14)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
@@ -60,6 +71,7 @@ GEM
     jbuilder (2.6.0)
       activesupport (>= 3.0.0, < 5.1)
       multi_json (~> 1.2)
+    json (2.0.2)
     listen (3.0.8)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -115,11 +127,18 @@ GEM
     rb-fsevent (0.9.7)
     rb-inotify (0.9.7)
       ffi (>= 0.5.0)
+    rspec (3.5.0)
+      rspec-core (~> 3.5.0)
+      rspec-expectations (~> 3.5.0)
+      rspec-mocks (~> 3.5.0)
     rspec-core (3.5.2)
       rspec-support (~> 3.5.0)
     rspec-expectations (3.5.0)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.5.0)
+    rspec-json_matcher (0.1.5)
+      awesome_print
+      json
     rspec-mocks (3.5.0)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.5.0)
@@ -131,6 +150,7 @@ GEM
       rspec-expectations (~> 3.5.0)
       rspec-mocks (~> 3.5.0)
       rspec-support (~> 3.5.0)
+    rspec-request_describer (0.1.1)
     rspec-support (3.5.0)
     spring (1.7.2)
     spring-watcher-listen (2.0.0)
@@ -157,8 +177,11 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  autodoc
   byebug
   capybara
+  database_rewinder
+  factory_girl_rails
   jbuilder (~> 2.5)
   listen (~> 3.0.5)
   mysql2
@@ -166,7 +189,9 @@ DEPENDENCIES
   poltergeist
   puma (~> 3.0)
   rails (~> 5.0.0)
+  rspec-json_matcher
   rspec-rails (~> 3.5)
+  rspec-request_describer
   spring
   spring-watcher-listen (~> 2.0.0)
   tzinfo-data
