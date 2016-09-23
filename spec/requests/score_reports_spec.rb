@@ -1,6 +1,38 @@
 require 'rails_helper'
 
 describe 'ScoreReport' do
+  describe "GET /score_reports" do
+    before do
+      create_list(:score_report, 10)
+    end
+
+    let(:target_array) do
+      _list = []
+
+      10.times do
+        _list << {
+          "id"        => Integer,
+          "inning"    => String,
+          "name"      => String,
+          "detail"    => String,
+          "score"     => String,
+          "game_date" => /^\d{4}\-\d{2}\-\d{2}$/
+        }
+      end
+
+      _list
+    end
+
+    it 'score_reportsの配列が返ってくる', autodoc: true do
+      is_expected.to be 200
+      expect(response.body).to be_json_as(
+        {
+          "score_reports" => target_array
+        }
+      )
+    end
+  end
+
   describe "GET /score_reports/#{Date.today}" do
     context '試合前' do
       it '空のscore_reportsが返ってくる' do
