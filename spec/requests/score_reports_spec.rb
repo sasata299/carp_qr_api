@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'ScoreReport' do
-  describe "GET /score_reports" do
+  describe "GET /score_reports/#{Date.today}" do
     context '試合前' do
       it '空のscore_reportsが返ってくる' do
         is_expected.to be 200
