@@ -16,15 +16,15 @@ default: &default
 
 development:
   <<: *default
-  database: carp_qr_api_development
+  database: carp_qr_development
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: carp_qr_api_test
+  database: carp_qr_test
 
 production:
   <<: *default
-  database: carp_qr_api
+  database: carp_qr
